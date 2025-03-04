@@ -4,6 +4,7 @@ Testing Instructions:
    nc 192.168.1.83 9123
 2. To test "start": type start and press Enter to reset the game state.
 3. To test "finish": reconnect and type finish to receive the current game state.
+4. to test "batt": reconnect and type batt to receive the battery percentage and voltage.
 Ensure both devices are on the same network and the fixed IP is reachable.
 */
 
@@ -65,11 +66,6 @@ const char* ssid = "TLLMS";         // Replace with your WiFi name
 const char* password = "mobimobi";  // Replace with your WiFi password
 const uint16_t TCP_PORT = 9123;     // TCP server port
 
-// // WiFi and TCP server configuration
-// const char* ssid = "Poco NG Mobile";    // Replace with your WiFi name
-// const char* password = "mobimobi";      // Replace with your WiFi password
-// const uint16_t TCP_PORT = 9123;         // TCP server port
-
 WiFiServer tcpServer(TCP_PORT);
 WiFiClient tcpClient;
 
@@ -81,16 +77,11 @@ IPAddress local_IP(192, 168, 1, 83);   // Set a free IP
 IPAddress gateway(192, 168, 1, 1);     // Your router's IP
 IPAddress subnet(255, 255, 255, 0);    // Subnet mask
 
-// // Add fixed IP configuration
-// IPAddress local_IP(192, 168, 158, 33);   // Set a free IP
-// IPAddress gateway(192, 168, 158, 1);     // Your router's IP
-// IPAddress subnet(255, 255, 255, 0);    // Subnet mask
-
 // Optionally, add DNS servers if needed
 // IPAddress primaryDNS(8, 8, 8, 8);    
 // IPAddress secondaryDNS(8, 8, 4, 4);
 
-// New UI helper functions:
+// UI helper functions:
 
 // Draws an elegant header with rounded corners and centered title.
 void drawHeader() {
@@ -120,7 +111,7 @@ void drawHeader() {
   M5.Lcd.print(battStr);
 }
 
-// New battery indicator update function.
+// battery indicator update function.
 void updateBatteryIndicator() {
     // Ensure the text size is consistent with initialization.
     M5.Lcd.setTextSize(2);
