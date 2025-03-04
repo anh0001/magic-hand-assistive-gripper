@@ -45,7 +45,7 @@ The Magic Hand Assistive Gripper is an ergonomic device designed specifically fo
 
 ```bash
 # Clone this repository
-git clone https://github.com/yourusername/magic-hand-assistive-gripper.git
+git clone https://github.com/anh0001/magic-hand-assistive-gripper.git
 
 # Navigate to the project directory
 cd magic-hand-assistive-gripper
