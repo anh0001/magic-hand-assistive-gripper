@@ -1,7 +1,7 @@
 # Magic Hand Assistive Gripper
 
 <div align="center">
-  <img src="docs/images/magic-hand-banner.jpg" alt="Magic Hand Assistive Gripper" width="600">
+  <img src="docs/images/magic-hand-banner.png" alt="Magic Hand Assistive Gripper" width="600">
   <p><i>Smart motion-sensitive assistive device providing real-time feedback for elderly users</i></p>
 </div>
 
