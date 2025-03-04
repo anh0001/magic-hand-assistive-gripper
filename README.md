@@ -23,7 +23,7 @@ The Magic Hand Assistive Gripper is an ergonomic device designed specifically fo
 - **Wireless Capabilities**: WiFi connectivity enables potential remote monitoring applications
 
 <div align="center">
-  <img src="docs/images/device-operation.jpg" alt="Magic Hand Operation" width="500">
+  <img src="docs/images/device-operation.gif" alt="Magic Hand Operation" width="500">
   <p><i>Magic Hand gripper operation demonstration</i></p>
 </div>
 
