@@ -74,11 +74,6 @@ cd magic-hand-assistive-gripper
    - Use this feedback to practice and develop smoother handling techniques
 4. **Power Off**: Press and hold Button C for more than 6 seconds
 
-<div align="center">
-  <img src="docs/images/feedback-system.jpg" alt="Feedback System Diagram" width="450">
-  <p><i>Diagram of the feedback system operation</i></p>
-</div>
-
 ## 📊 Technical Details
 
 ### Hardware Specifications
