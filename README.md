@@ -11,16 +11,23 @@
 
 ## 📋 Overview
 
-The Magic Hand Assistive Gripper is an ergonomic device designed specifically for elderly users to help them manipulate and transport objects with greater control and confidence. The device monitors movement quality in real-time and provides immediate audio feedback, helping users develop smoother handling techniques and reduce the risk of dropping objects.
+The Magic Hand Assistive Gripper is designed as part of a cognitive training game for elderly users. In this game, users are given tasks such as picking and grabbing fruits based on specific instructions (for example, selecting fruits that total ¥500 in value). The device encourages not just cognitive skills but also motor control - users must maintain smooth, confident movements while manipulating objects.
+
+The device operates with a life percentage (starting at 100%) that decreases when jerky movements are detected by the built-in IMU sensor. This gamification aspect motivates users to develop better control while performing cognitive tasks. Final scores and performance metrics are transmitted via TCP/IP connection to a monitoring system for assessment and progress tracking.
+
+Beyond the game scenario, the Magic Hand is an ergonomic device that helps elderly users manipulate and transport objects with greater control and confidence. The device monitors movement quality in real-time and provides immediate audio feedback, helping users develop smoother handling techniques and reduce the risk of dropping objects.
 
 ### 🎯 Key Features
 
+- **Cognitive Training Game**: Combines physical dexterity with cognitive tasks like value calculation and object selection
+- **Movement Quality Monitoring**: Life percentage decreases when jerky movements are detected
+- **TCP/IP Data Connection**: Real-time transmission of performance data to monitoring systems
 - **Ergonomic Design**: Finger length of 77.5mm and overall length of 300mm for comfortable handling
 - **Intuitive Operation**: Simple push-handle mechanism activates the four-finger mechanical gripper
 - **Motion Monitoring**: Integrated IMU sensor detects movement patterns and irregularities
 - **Real-time Feedback**: Built-in buzzer provides audio cues when jerky movements are detected
 - **Compact Control System**: Powered by the M5StickC Plus2 microcontroller with built-in components
-- **Wireless Capabilities**: WiFi connectivity enables potential remote monitoring applications
+- **Wireless Capabilities**: WiFi connectivity enables remote monitoring applications
 
 <div align="center">
   <img src="docs/images/device-operation.gif" alt="Magic Hand Operation">
@@ -34,6 +41,7 @@ The Magic Hand Assistive Gripper is an ergonomic device designed specifically fo
 - [Arduino IDE](https://www.arduino.cc/en/software) (1.8.x or newer)
 - [M5StickC Plus2 Board Package](https://docs.m5stack.com/en/quick_start/m5stickc_plus2/arduino)
 - USB Type-C cable
+- WiFi network for TCP/IP connectivity
 
 ### Hardware Assembly
 
@@ -58,9 +66,20 @@ cd magic-hand-assistive-gripper
    ```
    src/magic_hand_main/magic_hand_main.ino
    ```
-3. Select "M5StickC Plus2" from the Board menu
-4. Connect your M5StickC Plus2 via USB and select the appropriate port
-5. Upload the sketch to your device
+3. Configure WiFi settings in the sketch by modifying:
+   ```cpp
+   const char* ssid = "YOUR_WIFI_SSID";
+   const char* password = "YOUR_WIFI_PASSWORD";
+   ```
+4. Optionally configure a fixed IP for consistent connections:
+   ```cpp
+   IPAddress local_IP(192, 168, 1, 83);
+   IPAddress gateway(192, 168, 1, 1);
+   IPAddress subnet(255, 255, 255, 0);
+   ```
+5. Select "M5StickC Plus2" from the Board menu
+6. Connect your M5StickC Plus2 via USB and select the appropriate port
+7. Upload the sketch to your device
 
 ## 🛠️ Usage
 
@@ -68,11 +87,46 @@ cd magic-hand-assistive-gripper
 2. **Grip Operation**: 
    - Push the black handle to the left to close the gripper's fingers
    - Release to open the fingers
-3. **Feedback System**:
+3. **Game Operation**:
+   - Follow cognitive task instructions (e.g., grab fruits totaling ¥500)
+   - Maintain smooth movements to preserve the life percentage
+   - Monitor feedback and adjust movements accordingly
+4. **Feedback System**:
    - The buzzer remains silent during smooth movements
    - The buzzer beeps at increasing frequency when jerky movements are detected
-   - Use this feedback to practice and develop smoother handling techniques
-4. **Power Off**: Press and hold Button C for more than 6 seconds
+   - Life percentage decreases with jerky movements
+5. **Power Off**: Press and hold Button C for more than 6 seconds
+
+### TCP/IP Connection
+
+The device establishes a TCP server on port 9123 that can be accessed to:
+- Start a new game session
+- Retrieve current game state
+- Monitor battery levels
+
+To connect and interact with the TCP server:
+
+```bash
+# On macOS/Linux, use netcat to connect to the device
+nc 192.168.1.83 9123
+
+# Available commands:
+# - start: Reset the game state to initial values (100% life)
+# - finish: Retrieve current game state (life percentage and movement intensity)
+# - batt: Request battery status information (percentage and voltage)
+```
+
+Example response for "finish" command:
+```
+Life: 85, Intensity: 0.23
+```
+
+Example response for "batt" command:
+```
+Battery: 78%, Voltage: 3.92V
+```
+
+This TCP/IP interface allows integration with external monitoring systems, game controllers, or assessment tools.
 
 ## 📊 Technical Details
 
@@ -84,7 +138,7 @@ cd magic-hand-assistive-gripper
 | Motion Sensor | MPU6886 6-Axis IMU |
 | Display | 1.14" TFT (135×240) |
 | Battery | 200mAh LiPo |
-| Connectivity | WiFi |
+| Connectivity | WiFi (TCP/IP server on port 9123) |
 | Gripper Length | 300mm |
 | Finger Length | 77.5mm |
 | Audio Feedback | Built-in passive buzzer |
@@ -96,6 +150,8 @@ The system uses the built-in IMU (Inertial Measurement Unit) of the M5StickC Plu
 1. **Data Acquisition**: Continuous sampling from the accelerometer and gyroscope
 2. **Movement Analysis**: Processing of motion data to detect irregularities
 3. **Feedback Generation**: Activation of the buzzer with varying frequency based on movement quality
+4. **Life Management**: Reduction of life percentage based on movement intensity
+5. **Data Transmission**: Communication of game state via TCP/IP
 
 ## 🏗️ Project Structure
 
@@ -116,10 +172,12 @@ magic-hand-assistive-gripper/
 ## 🔄 Future Enhancements
 
 - **User Profiles**: Customizable sensitivity settings for different user needs
-- **Mobile App**: Companion application for extended feedback and progress tracking
+- **Mobile App Interface**: Companion application for extended feedback and progress tracking
 - **Visual Feedback**: Adding LED indicators for users with hearing impairments
 - **Force Sensors**: Integration of pressure sensors for grip strength monitoring
-- **Data Logging**: Recording movement patterns for analysis and improvement
+- **Data Logging**: Enhanced recording of movement patterns for analysis and improvement
+- **Expanded Game Library**: Additional cognitive tasks and difficulty levels
+- **Cloud Integration**: Remote storage and analysis of performance data
 
 ## 🤝 Contributing
 
